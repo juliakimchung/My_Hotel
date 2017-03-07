@@ -3,7 +3,6 @@ from hotel_api.models import *
 from hotel_api.serializers import *
 from rest_framework import generics
 from rest_framework import reverse
-from rest_framework.views import APIViews
 from rest_framework.response import Response 
 from rest_framework import viewsets
 from rest_framework import renderers
@@ -28,5 +27,5 @@ class PaymentTypeViewSet(viewsets.ModelViewSet):
 class RoomViewSet(viewsets.ModelViewSet):
 
 	queryset = Room.objects.all()
-	serializer_class = Room.objects.all()
+	serializer_class = RoomSerializer
 

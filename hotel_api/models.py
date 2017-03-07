@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 # Create your models here.
@@ -19,8 +20,9 @@ class Room(models.Model):
 
     
     name = models.CharField(max_length = 200, blank=True, default="")
-    description = models.TextField(max_length=400, default="")
-    amenity = models.TextField(max_length=500, default="")
+    size = models.CharField(max_length = 100, blank =True)
+    description = models.TextField(max_length=1400, default="")
+    amenity = models.TextField(max_length=1500, default="")
     price = models.DecimalField(max_digits=20, decimal_places=2)
     availability = models.BooleanField(default=False)
 
@@ -33,7 +35,7 @@ class Room(models.Model):
 class PaymentType(models.Model):
     name = models.CharField(max_length = 100)
     account_number = models.CharField(max_length= 16, unique= True )
-    ccv = models.CharField(max_length=3)
+    ccv_number = models.CharField(max_length=3)
     expiration_date = models.CharField(max_length=10)
 
     def __str__(self):
@@ -44,13 +46,15 @@ class PaymentType(models.Model):
 
 
 class Reservation(models.Model):
-    date = models.DateTimeField()
+    check_in_date = models.DateField(default=timezone.now)
+    check_out_date = models.DateField(default=timezone.now)
     completed = models.IntegerField(default = 0)
     room = models.ForeignKey("Room", related_name="reservations", on_delete=models.CASCADE)
     payment_type = models.ForeignKey('PaymentType', related_name="reservations", on_delete=models.CASCADE)
+    guest = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{}'.format(self.date)
+        return '{}'.format(self.completed)
 
     class Meta:
         verbose_name_plural = "Reservations"
