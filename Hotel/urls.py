@@ -23,13 +23,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 router = DefaultRouter()
+router.register(r'users', UserViewSet)
 router.register(r'room', RoomViewSet)
-router.register(r'reservation', ReservationViewSet)
+router.register(r'reservation', ReservationViewSet, base_name='reservation')
 router.register(r'payment_type', PaymentTypeViewSet)
-router.register(r'users', GuestViewSet)
+router.register(r'guest', GuestViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^register/', RegisterView.as_view()),
     url(r'^api-token-auth/', obtain_auth_token),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

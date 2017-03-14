@@ -48,18 +48,30 @@ class PaymentType(models.Model):
 
 
 class Reservation(models.Model):
-    check_in_date = models.DateField()
-    check_out_date = models.DateField()
+    check_in_date = models.DateTimeField()
+    check_out_date = models.DateTimeField()
     completed = models.IntegerField(default = 0)
     room = models.ForeignKey("Room", related_name="reservations", on_delete=models.CASCADE)
-    guest = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
-    payment_type = models.ForeignKey('PaymentType', related_name="reservations", on_delete=models.CASCADE)
+    guest = models.ForeignKey('Guest', related_name='reservations', on_delete=models.CASCADE)
+    payment = models.ForeignKey('PaymentType', related_name="reservations", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}'.format(self.completed)
 
     class Meta:
         verbose_name_plural = "Reservations"
+
+
+class Guest(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    street_address = models.CharField(max_length=100)
+    city = models.CharField(max_length=25)
+    state = models.CharField(max_length=2)
+    zipcode = models.CharField(max_length=10)
+
+    def __str__(self):
+        return "{}".format(self.user)
 
 
 
