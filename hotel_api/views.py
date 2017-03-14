@@ -98,6 +98,3 @@ class RegisterView(generics.RetrieveAPIView):
 
 
 
-
-
-

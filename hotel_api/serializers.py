@@ -16,7 +16,8 @@ class PaymentTypeSerializer(serializers.ModelSerializer):
       'expiration_date')
 
 class ReservationSerializer(serializers.ModelSerializer):
-    # payment= PaymentTypeSerializer(many=False)
+    
+
     class Meta:
         model = Reservation
         fields = (
@@ -96,7 +97,6 @@ class GuestSerializer(serializers.ModelSerializer):
   If user is not staff, This UserSerializer will be picked up on the viewset
   """
 
-  reservation = serializers.HyperlinkedRelatedField(many=True, view_name="reservation_detail", read_only='true')
   class Meta:
     model = Guest
     fields = (
@@ -105,8 +105,8 @@ class GuestSerializer(serializers.ModelSerializer):
       'user', 
       'street_address', 
       'city', 'state', 
-      'zip_code', 
-      'reservation')
+      'zipcode' 
+      )
     
 class LoginSerializer(serializers.ModelSerializer):
   class Meta:
