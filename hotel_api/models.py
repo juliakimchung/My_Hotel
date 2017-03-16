@@ -1,9 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from decimal import Decimal
 
 
 # Create your models here.
+
+
 class Room(models.Model):
     """
         Class to create a table representing a room
@@ -18,7 +21,7 @@ class Room(models.Model):
             
     """
 
-    
+    image = models.FileField(max_length=None)
     name = models.CharField(max_length = 200, blank=True, default="")
     size = models.CharField(max_length = 100, blank =True)
     description = models.TextField(max_length=1400, default="")
@@ -46,18 +49,33 @@ class PaymentType(models.Model):
 
 
 class Reservation(models.Model):
-    check_in_date = models.DateField(default=timezone.now)
-    check_out_date = models.DateField(default=timezone.now)
+    check_in_date = models.DateTimeField()
+    check_out_date = models.DateTimeField()
     completed = models.IntegerField(default = 0)
+    total = models.DecimalField(max_digits=10, decimal_places=2 , default=Decimal(0))
     room = models.ForeignKey("Room", related_name="reservations", on_delete=models.CASCADE)
-    payment_type = models.ForeignKey('PaymentType', related_name="reservations", on_delete=models.CASCADE)
-    guest = models.ForeignKey(User, related_name='reservations', on_delete=models.CASCADE)
+    guest = models.ForeignKey('Guest', related_name='reservations', on_delete=models.CASCADE)
+    payment = models.ForeignKey('PaymentType', related_name="reservations", on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}'.format(self.completed)
 
     class Meta:
         verbose_name_plural = "Reservations"
+
+
+class Guest(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    street_address = models.CharField(max_length=100)
+    city = models.CharField(max_length=25)
+    state = models.CharField(max_length=2)
+    zipcode = models.CharField(max_length=10)
+
+    def __str__(self):
+        return "{}".format(self.user)
+
+
 
 
 
