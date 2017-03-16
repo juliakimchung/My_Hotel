@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from decimal import Decimal
 
 
 # Create your models here.
@@ -51,6 +52,7 @@ class Reservation(models.Model):
     check_in_date = models.DateTimeField()
     check_out_date = models.DateTimeField()
     completed = models.IntegerField(default = 0)
+    total = models.DecimalField(max_digits=10, decimal_places=2 , default=Decimal(0))
     room = models.ForeignKey("Room", related_name="reservations", on_delete=models.CASCADE)
     guest = models.ForeignKey('Guest', related_name='reservations', on_delete=models.CASCADE)
     payment = models.ForeignKey('PaymentType', related_name="reservations", on_delete=models.CASCADE)
@@ -69,7 +71,7 @@ class Guest(models.Model):
     city = models.CharField(max_length=25)
     state = models.CharField(max_length=2)
     zipcode = models.CharField(max_length=10)
-    
+
     def __str__(self):
         return "{}".format(self.user)
 

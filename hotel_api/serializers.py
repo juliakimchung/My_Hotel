@@ -16,7 +16,7 @@ class PaymentTypeSerializer(serializers.ModelSerializer):
       'expiration_date')
 
 class ReservationSerializer(serializers.ModelSerializer):
-    
+
 
     class Meta:
         model = Reservation
@@ -24,7 +24,8 @@ class ReservationSerializer(serializers.ModelSerializer):
           'id', 
           'check_in_date', 
           'check_out_date', 
-          'completed', 
+          'completed',
+          'total', 
           'payment', 
           'room', 
           'guest')
@@ -38,6 +39,7 @@ class ReservationSerializer(serializers.ModelSerializer):
             check_in_date=validated_data['check_in_date'],
             check_out_date=validated_data['check_out_date'],
             completed=0,
+            total=validated_data['total'],
             payment=validated_data['payment'],
             room=validated_data['room'],
             guest=guest
