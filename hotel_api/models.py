@@ -49,7 +49,7 @@ class PaymentType(models.Model):
 
 
 class Reservation(models.Model):
-    check_in_date = models.DateTimeField()
+    check_in_date = models.DateTimeField("order by")
     check_out_date = models.DateTimeField()
     completed = models.IntegerField(default = 0)
     total = models.DecimalField(max_digits=10, decimal_places=2 , default=Decimal(0))
@@ -58,7 +58,7 @@ class Reservation(models.Model):
     payment = models.ForeignKey('PaymentType', related_name="reservations", on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{}'.format(self.completed)
+        return '{}'.format(self.id)
 
     class Meta:
         verbose_name_plural = "Reservations"

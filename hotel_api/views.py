@@ -32,8 +32,8 @@ class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
 
     def get_queryset(self):
-        current_reservation = Reservation.objects.filter(guest__user=self.request.user)
-    
+        current_reservation = Reservation.objects.filter(guest__user=self.request.user).order_by("-check_in_date")
+        
         return current_reservation
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):
@@ -46,6 +46,8 @@ class RoomViewSet(viewsets.ModelViewSet):
 
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
+    
 
 class RegisterView(generics.RetrieveAPIView):
     """
