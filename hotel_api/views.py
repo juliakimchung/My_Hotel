@@ -32,14 +32,24 @@ class ReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ReservationSerializer
 
     def get_queryset(self):
-        current_reservation = Reservation.objects.filter(guest__user=self.request.user).order_by("-check_in_date")
-        
+        current_reservation = Reservation.objects.filter(guest__user=self.request.user)
+        if current_reservation == current_reservation.objects.filter(room=self.request.room,
+                check_in_date__gte=self.request.check_in_date, check_out_date__lte=self.request.check_out_date).exists():
+            raise ValidationError('reservaton exists')
+
+       
         return current_reservation
+
+
+
+                
+
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):
 
-    queryset = PaymentType.objects.all()
+    queryset = PaymentType.objects.all()    
     serializer_class = PaymentTypeSerializer
+
 
     
 class RoomViewSet(viewsets.ModelViewSet):

@@ -59,6 +59,7 @@ class Reservation(models.Model):
 
     def __str__(self):
         return '{}'.format(self.id)
+        
 
     class Meta:
         verbose_name_plural = "Reservations"
