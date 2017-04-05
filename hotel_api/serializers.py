@@ -38,14 +38,14 @@ class ReservationSerializer(serializers.ModelSerializer):
         check_in_date=validated_data['check_in_date']
         check_out_date=validated_data['check_out_date']
         reservation=Reservation.objects.filter(check_in_date__gte=check_in_date, check_out_date__lte=check_out_date, room=room.pk)
-        if reservation is None:
+        if len(reservation) is 0:
             return Reservation.objects.create(
-                check_in_date=validated_data['check_in_date'],
-                check_out_date=validated_data['check_out_date'],
+                check_in_date=check_in_date,
+                check_out_date=check_out_date,
                 completed=0,
                 total=validated_data['total'],
                 payment=validated_data['payment'],
-                room=validated_data['room'],
+                room=room,
                 guest=guest
                 )
         else:
