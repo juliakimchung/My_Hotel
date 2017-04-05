@@ -12,7 +12,8 @@ from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.decorators.csrf import csrf_exempt
 import json
-# Create your views here.
+import django_filters
+
 class GuestViewSet(viewsets.ModelViewSet):
 
     queryset = Guest.objects.all()
@@ -33,16 +34,12 @@ class ReservationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         current_reservation = Reservation.objects.filter(guest__user=self.request.user)
-        if current_reservation == current_reservation.objects.filter(room=self.request.room,
-                check_in_date__gte=self.request.check_in_date, check_out_date__lte=self.request.check_out_date).exists():
-            raise ValidationError('reservaton exists')
-
+        
        
         return current_reservation
 
 
 
-                
 
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):

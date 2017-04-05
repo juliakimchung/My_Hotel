@@ -34,16 +34,22 @@ class ReservationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user =  self.context['request'].user
         guest= Guest.objects.get(user=user)
-
-        return Reservation.objects.create(
-            check_in_date=validated_data['check_in_date'],
-            check_out_date=validated_data['check_out_date'],
-            completed=0,
-            total=validated_data['total'],
-            payment=validated_data['payment'],
-            room=validated_data['room'],
-            guest=guest
-            )
+        room = validated_data['room']
+        check_in_date=validated_data['check_in_date']
+        check_out_date=validated_data['check_out_date']
+        reservation=Reservation.objects.filter(check_in_date__gte=check_in_date, check_out_date__lte=check_out_date, room=room.pk)
+        if reservation is None:
+            return Reservation.objects.create(
+                check_in_date=validated_data['check_in_date'],
+                check_out_date=validated_data['check_out_date'],
+                completed=0,
+                total=validated_data['total'],
+                payment=validated_data['payment'],
+                room=validated_data['room'],
+                guest=guest
+                )
+        else:
+            raise serializers.ValidationError("reservation already exists")
       
 class RoomSerializer(serializers.HyperlinkedModelSerializer):
 
