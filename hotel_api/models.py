@@ -37,7 +37,7 @@ class Room(models.Model):
 
 class PaymentType(models.Model):
     name = models.CharField(max_length = 100)
-    account_number = models.CharField(max_length= 16, unique= True )
+    account_number = models.CharField(max_length= 16 )
     ccv_number = models.CharField(max_length=3)
     expiration_date = models.CharField(max_length=10)
 

@@ -49,7 +49,7 @@ class ReservationSerializer(serializers.ModelSerializer):
                 guest=guest
                 )
         else:
-            raise serializers.ValidationError("reservation already exists")
+            raise serializers.ValidationError("error")
       
 class RoomSerializer(serializers.HyperlinkedModelSerializer):
 
