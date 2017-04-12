@@ -12,7 +12,8 @@ from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.decorators.csrf import csrf_exempt
 import json
-# Create your views here.
+import django_filters
+
 class GuestViewSet(viewsets.ModelViewSet):
 
     queryset = Guest.objects.all()
@@ -33,19 +34,27 @@ class ReservationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         current_reservation = Reservation.objects.filter(guest__user=self.request.user)
-    
+        
+       
         return current_reservation
+
+
+
+
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):
 
-    queryset = PaymentType.objects.all()
+    queryset = PaymentType.objects.all()    
     serializer_class = PaymentTypeSerializer
+
 
     
 class RoomViewSet(viewsets.ModelViewSet):
 
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
+
+    
 
 class RegisterView(generics.RetrieveAPIView):
     """
