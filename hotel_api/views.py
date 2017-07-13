@@ -88,6 +88,7 @@ class RegisterView(generics.RetrieveAPIView):
             first_name = req_body['first_name'],
             last_name = req_body['last_name']
             )
+        
         guest = Guest.objects.create(
             user = user,
             street_address = req_body['street_address'],
